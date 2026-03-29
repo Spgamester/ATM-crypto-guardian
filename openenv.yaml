@@ -1,4 +1,0 @@
-name: "atm-cryptographic-guardian"
-version: "1.0.0"
-description: "The AI agent plays the role of a centralized HSM defender, where it examines the ATM transaction protocols, payload signatures, and cryptographic handshakes to prevent replay attacks, jackpotting attacks, and MITM attacks."
-tasks: 3
