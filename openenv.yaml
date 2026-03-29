@@ -1,0 +1,15 @@
+version: "1.0.0"
+name: "atm-cryptographic-guardian"
+description: "Centralized HSM defender environment for ATM protocol security and replay attack mitigation."
+tasks:
+  - id: "level_1"
+    name: "Replay Attack Mitigation"
+    difficulty: "easy"
+  - id: "level_2"
+    name: "Baseline Integrity Check"
+    difficulty: "medium"
+  - id: "level_3"
+    name: "Protocol Downgrade Defense"
+    difficulty: "hard"
+entrypoint: "main:app"
+port: 7860
