@@ -33,5 +33,5 @@ The agent must choose one of the following literal decisions:
 ---
 
 ## 🚀 Setup & Local Testing
-1. **Build Image:** ```bash
+1. **Build Image:** ```bash 
    docker build -t atm-guardian .
