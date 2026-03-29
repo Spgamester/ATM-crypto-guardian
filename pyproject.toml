@@ -7,7 +7,7 @@ name = "atm-cryptographic-guardian"
 version = "1.0.0"
 description = "Centralized HSM defender environment"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10, <3.13"
 dependencies = [
     "fastapi",
     "uvicorn",
