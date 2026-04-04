@@ -6,9 +6,9 @@ app = FastAPI()
 env = ATMEnvironment()
 
 @app.post("/reset", response_model=Observation)
-def reset(task_level: int = 1):
-    return env.reset(task_level)
-
+def reset():
+    return env.reset()
+    
 @app.post("/step", response_model=Reward)
 def step(action: Action):
     return env.step(action)
