@@ -33,9 +33,8 @@ class ATMEnvironment:
             return self.transactions[self.current_index]
         return Observation(transaction_id="DONE", atm_id="NONE", timestamp=0.0, protocol_version="NONE", encryption_type="NONE", signature_valid=False, observation_text="All tasks completed.")
 
-   def step(self, action: Action) -> Reward:
+    def step(self, action: Action) -> Reward:
         if self.current_index >= len(self.transactions):
-           
             return Reward(reward=0.05, feedback="Session complete", done=True)
 
         current_tx = self.transactions[self.current_index]
@@ -45,7 +44,6 @@ class ATMEnvironment:
         if self.current_task_level == 1:
             if self.current_index == 0:
                 if action.decision == "ALLOW":
-                    
                     reward_val = 0.9; feedback = "Valid transaction authorized"
             elif self.current_index == 1:
                 if action.decision in ["BLOCK_TRANSACTION", "SHUTDOWN_ATM"]:
