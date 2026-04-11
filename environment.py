@@ -1,3 +1,4 @@
+import random
 from models import Observation, Action, Reward
 
 class ATMEnvironment:
