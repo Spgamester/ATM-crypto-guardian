@@ -5,13 +5,21 @@ class Observation(BaseModel):
     transaction_id: str
     atm_id: str
     timestamp: float
-    protocol_version: str
-    encryption_type: Literal["NONE", "DES", "3DES", "AES-256"]
-    signature_valid: bool
-    observation_text: str = Field(default="Monitoring ATM transaction...")
+    connection_type: str
+    
+    encryption_status: str = Field(default="HIDDEN_REQUIRE_SCAN")
+    hsm_signature_valid: Optional[bool] = Field(default=None)
+    
+    observation_text: str
 
 class Action(BaseModel):
-    decision: Literal["ALLOW", "BLOCK_TRANSACTION", "SHUTDOWN_ATM", "FLAG_FOR_REVIEW"]
+    decision: Literal[
+        "SCAN_ENCRYPTION",       
+        "VERIFY_HSM_SIGNATURE",  
+        "ALLOW_TRANSACTION",     
+        "BLOCK_TRANSACTION",     
+        "SHUTDOWN_TERMINAL"      
+    ]
     reason: str
 
 class Reward(BaseModel):
