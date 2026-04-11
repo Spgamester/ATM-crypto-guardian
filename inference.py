@@ -39,8 +39,10 @@ def run_agent():
         while not done and step_count < 10:
             step_count += 1
             prompt = (
-                f"You are an ATM Security Guardian. Analyze this transaction: {json.dumps(obs)}. "
-                f"Respond ONLY with a JSON object: {{'decision': 'ALLOW'|'BLOCK_TRANSACTION'|'SHUTDOWN_ATM', 'reason': 'short explanation'}}"
+                f"You are an elite ATM Security Guardian. Analyze this transaction: {json.dumps(obs)}. "
+                f"If 'encryption_status' is HIDDEN_REQUIRE_SCAN, you MUST investigate first. "
+                f"Respond ONLY with a JSON object using one of these decisions: "
+                f"{{'decision': 'SCAN_ENCRYPTION'|'VERIFY_HSM_SIGNATURE'|'ALLOW_TRANSACTION'|'BLOCK_TRANSACTION'|'SHUTDOWN_TERMINAL', 'reason': 'short explanation'}}"
             )
             
             try:
