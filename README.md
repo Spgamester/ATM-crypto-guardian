@@ -8,27 +8,25 @@ app_port: 7860
 pinned: false
 ---
 
-# 🛡️ ATM Cryptographic Guardian (Grand Finale Edition)
+# 🛡️ ATM Cryptographic Guardian
 
-**A multi-step, agentic reinforcement learning environment built for the Meta PyTorch OpenEnv Hackathon x Scaler School of Technology.**
+**A partially observable, multi-step reinforcement learning environment simulating a Centralized Hardware Security Module (HSM) defending an ATM network.**
 
-## 🚀 Advanced Architecture: Partial Observability & Agentic Workflows
-Unlike standard "pass/fail" environments, the ATM Guardian environment is designed to test a Large Language Model's capacity for **multi-step reasoning, tool use, and state investigation**. 
-
-It simulates a Centralized Hardware Security Module (HSM) defending an ATM network against protocol downgrades, replay attacks, and cryptographic forgeries.
+## 📌 Overview
+The ATM Guardian environment evaluates an agent's capacity for multi-step reasoning, tool use, and state investigation. It requires the agent to defend against protocol downgrades, replay attacks, and cryptographic forgeries by investigating hidden parameters before making terminal security decisions.
 
 ### Key Technical Features:
-1. **Hidden States (Partial Observability):** Critical cryptographic data (`encryption_status`, `hsm_signature`) is deliberately hidden from the initial observation. The AI cannot simply guess the answer.
-2. **Tool-Use Requirement:** The agent must actively deploy investigation tools (`SCAN_ENCRYPTION`, `VERIFY_HSM_SIGNATURE`) to mutate the environment state and reveal hidden parameters before making a final decision.
-3. **Stochastic Generation:** Transactions, timestamps, and node IDs are dynamically generated per episode, preventing the LLM from relying on memorized, static data.
-4. **Strict Reward Shaping:** The environment utilizes a clamped `(0.01, 0.99)` reward schema to evaluate methodology, not just the final answer.
+* **Partial Observability:** Critical cryptographic data (`encryption_status`, `hsm_signature`) is hidden from the initial observation state.
+* **Tool-Use Integration:** The agent must deploy investigation tools (`SCAN_ENCRYPTION`, `VERIFY_HSM_SIGNATURE`) to mutate the environment state and reveal necessary parameters.
+* **Stochastic Generation:** Transactions, timestamps, and node IDs are dynamically generated per episode to ensure robust evaluation.
+* **Reward Shaping:** The environment utilizes a clamped `(0.01, 0.99)` reward schema to evaluate investigation methodology and terminal accuracy.
 
 ---
 
 ## 🧠 Environment Mechanics
 
 ### The Action Space
-The agent has access to a dynamic action space divided into two phases:
+The agent interacts with the environment using a two-phase action space:
 
 **Investigation Actions (Tools):**
 * `SCAN_ENCRYPTION`: Pings the payload to reveal if it is secure (AES-256) or compromised (SSLv3).
@@ -40,17 +38,26 @@ The agent has access to a dynamic action space divided into two phases:
 * `SHUTDOWN_TERMINAL`: Issues a severe network-wide lock on the specific ATM node.
 
 ### The Reward Function
-To prevent "lucky guesses," the environment enforces strict penalties:
+The environment enforces strict reward mapping based on the agent's methodology:
 * **+0.20**: Awarded for successfully utilizing an investigation tool to reveal hidden state variables.
-* **+0.95**: Awarded for executing the correct Terminal Action *after* a proper investigation.
-* **+0.10 (Penalty)**: Given if the agent attempts a blind guess (executing a Terminal Action without uncovering the hidden states first).
-* **+0.20 (Partial)**: Given if the agent investigates properly, but chooses the wrong Terminal Action.
+* **+0.95**: Awarded for executing the correct Terminal Action after conducting a proper investigation.
+* **+0.10**: Applied as a penalty if the agent attempts to execute a Terminal Action without uncovering the hidden states first.
+* **+0.20**: Applied if the agent investigates properly but selects the incorrect Terminal Action.
+
+---
+
+## 🎯 Task Levels
+The environment exposes three progressively difficult scenarios:
+
+* **Level 1:** Standard Valid Transaction vs. Timestamp Replay Attack.
+* **Level 2:** Hidden Protocol Downgrade Attack (AES-256 to SSLv3).
+* **Level 3:** Complete HSM Signature Forgery with anomalous connection types.
 
 ---
 
 ## 📂 Project Structure
 
-This environment is fully containerized and served via a FastAPI backend, ensuring compliance with OpenEnv infrastructure limits (2 vCPU, 8GB RAM).
+This environment is fully containerized and served via a FastAPI backend, ensuring compliance with standard infrastructure deployments (2 vCPU, 8GB RAM).
 
 ```text
 ├── server/
